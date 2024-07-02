@@ -14,10 +14,9 @@ namespace ConsoleApp1
             int n2 = 2;
             Console.WriteLine($"if {n1 > n2}, {n1} ");
 
-            String str = "afghsjkl;b'";
-
 
             StringBuilder stringBuilder = new StringBuilder();
+            
             Console.ReadKey();
 
         }
