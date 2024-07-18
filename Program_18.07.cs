@@ -151,27 +151,154 @@ namespace ConsoleApp1
         }
     }
 
+    class Word
+    {
+        public string Source { get; }
+        public string Target { get; set; }
+        public Word(string source, string target)
+        {
+            Source = source;
+            Target = target;
+        }
+
+        public override string ToString()
+        {
+            return $"{Source} - {Target}";
+        }
+    }
+    class Dictionary
+    {
+        Word[] words;
+        public Dictionary()
+        {
+            words = new Word[]
+            {
+                new Word("sound", "звук"),
+                new Word("way", "путь"),
+                new Word("bullet", "пуля"),
+                new Word("pull", "поятнуть"),
+            };
+        }
+        public int Lenght { get { return words.Length; } }
+        public string this[string index]
+        {
+            get 
+            {
+                Word new_word = null;
+                foreach (Word item in words)
+                {
+                    if (item.Source == index)
+                    {
+                        new_word = item;
+                    }
+                }
+                return new_word?.Target;
+            }
+            set 
+            {
+                foreach (Word item in words)
+                {
+                    if(item.Source == index)
+                    {
+                        item.Target = value;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public Word this[int index]
+        {
+            get 
+            {
+                if (index >= 0 && index < words.Length)
+                    return words[index];
+
+                throw new IndexOutOfRangeException();
+            }
+            set 
+            {
+                words[index] = value;
+            }
+        }
+    }
+
+    class RangeOfArray
+    {
+        int[] array;
+        public RangeOfArray(int size, int start, int end)
+        {
+            array = new int[size];
+            Length = size;
+            StartIndex = start;
+            EndIndex = end;
+        }
+
+        public int Length { get; set; }
+        public int StartIndex { get; set; }
+
+        int endIndex;
+        public int EndIndex 
+        {
+            get
+            {
+                return endIndex;
+            }
+            set 
+            {
+                if (value < StartIndex + Length)
+                    endIndex = value;
+                else
+                    endIndex = StartIndex + Length;
+            } 
+        }
+
+        public int this[int index]
+        {
+            get 
+            {
+                if (index >= StartIndex && index < EndIndex)
+                {
+                    return array[index];
+                }
+                return array[StartIndex];
+            }
+            set 
+            {
+                if(index >= StartIndex && index < EndIndex)
+                {
+                    array[index] = value;
+                }
+            }
+        }
+    }
+
+
     internal class Program
     {
         static void Main(string[] args)
         {
-            Point point1 = new Point();
-            Point point2 = new Point(10, -5);
-
-            Straight straight = new Straight(10);
-            for (int i = 0; i < straight.Lenght; i++)
+            Dictionary dictionary = new Dictionary();
+            for (int i = 0; i < dictionary.Lenght; i++)
             {
-                straight[i] = new Point(0, 15);
+                Console.WriteLine(dictionary[i]);
+            }
+            dictionary["way"] = "дорога";
+            Console.WriteLine("\n\n");
+
+            for (int i = 0; i < dictionary.Lenght; i++)
+            {
+                Console.WriteLine(dictionary[i]);
             }
 
-            Plane plane = new Plane(5, 8);
-            plane[0, 2] = new Point(1, 0);
 
+            RangeOfArray rangeOfArray = new RangeOfArray(5, 9, 14);
 
-
-            Point p3 = -point2;
-
-            Console.WriteLine(point1++.ToString());
+            for (int i = rangeOfArray.StartIndex; i < rangeOfArray.EndIndex; i++)
+            {
+                Console.WriteLine(rangeOfArray[i]);
+            }
+            
 
             Console.ReadKey();
 
